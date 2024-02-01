@@ -1,0 +1,107 @@
+ > ><!DOCTYPE html>
+
+```<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Box</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("https://contactlamb.s3.eu-west-1.amazonaws.com/employe_communication.gif");
+            background-size: cover; /* Adjust as needed */
+            background-position: center center; /* Adjust as needed */
+            background-repeat: no-repeat;
+           
+        }
+        .post-box {
+            width: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>    
+</head>
+<body>
+    <header>
+        <h1>Communication-Box</h1>
+    </header>
+    <main>  
+        <h2>Welcome to Our Communication-Box</h2>
+        <p>Unleash your thoughts, share your stories, and connect with the world.</p>
+    </main>
+    <div class="post-box">
+        <h2>Create a New Contact</h2>
+        <form id="post-box" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="email">email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="postContent">postContent:</label>
+            <textarea id="postContent" name="postContent" rows="4" cols="50" required></textarea><br><br>
+ 
+            <input type="submit" value="Submit">
+        </form>
+    </div> 
+    <script>
+        document.getElementById("post-box").addEventListener("submit", function(event) {
+         event.preventDefault(); // Prevent form submission
+             
+        // Serailize form data into JSON
+         var formData = {
+         name: document.getElementById("name").value,
+         email: document.getElementById("email").value,
+         postContent: document.getElementById("postContent").value
+        };
+        var jsonData = JSON.stringify (formData);
+            
+        // Send Json payload to the endpoint
+        fetch( "https://w1lur9xwkk.execute-api.eu-west-1.amazonaws.com/default/contactfunction",{
+        method: "POST",
+        body: jsonData
+        })
+       .then(Response => {
+           if (Response.ok) {
+             alert("form submitted successfully");
+        // Perform any desired actions upon successfull form submission
+            } else {
+               alert("Form subbmission failed");
+        // Handle the failure scenario
+            }
+        })   
+        .catch(Error => {
+           console.error("An error occurred:", error);
+        //Handle any error that occurred during the form submission
+        });
+
+        });
+    </script> 
+           
+    <footer>
+        &copy; 2023 Your Website. All rights reserved.
+    </footer>
+  
+</body>
+</html>
